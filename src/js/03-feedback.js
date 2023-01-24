@@ -5,13 +5,13 @@ const feedbackForm = document.querySelector('.feedback-form');
 const STORAGE_KEY = 'feedback-form-state';
 const { email, message } = feedbackForm.elements;
 
-const saveData = Throttle(() => {
+const saveData = () => {
   data = {
     email: email.value,
     message: message.value,
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}, 500);
+};
 
 const loadData = () => {
   const previousData = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -25,7 +25,7 @@ const removeData = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
 
-feedbackForm.addEventListener('input', saveData);
+feedbackForm.addEventListener('input', Throttle(saveData, 500));
 
 window.addEventListener('load', loadData);
 
